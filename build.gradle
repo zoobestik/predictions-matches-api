@@ -26,7 +26,7 @@ apply plugin: 'application'
 
 version = '1.0'
 
-mainClassName = 'app.APIAppKt'
+mainClassName = 'app.MainKt'
 
 defaultTasks 'run'
 
