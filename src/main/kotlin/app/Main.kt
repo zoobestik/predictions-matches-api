@@ -1,18 +1,17 @@
 package app
 
-import app.lib.exceptions.HashIllegalConfiguration
 import app.lib.getenv
+import org.jetbrains.ktor.application.Application
+import org.jetbrains.ktor.host.embeddedServer
+import org.jetbrains.ktor.netty.Netty
 
-data class Configuration(val port: Int, val hash: String)
-data class Session(val userId: String)
+fun Application.module() {
+    App(this)
+}
 
 fun main(args: Array<String>) {
-    val conf = Configuration(
-            port = getenv("port")?.toInt() ?: 8088,
-            hash = getenv("hash") ?: throw HashIllegalConfiguration()
-    )
+    val port = getenv("port")?.toInt() ?: 8088
 
-    App(conf)
-            .configure()
+    embeddedServer(Netty, port, reloadPackages = listOf("app"), module = Application::module)
             .start(wait = true)
 }
